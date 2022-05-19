@@ -1,9 +1,9 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyBi_M1wQUh-mLKPNGFljT5lebIPVncdZN4",
-    authDomain: "story-telling-6d2d5.firebaseapp.com",
-    projectId: "story-telling-6d2d5",
-    storageBucket: "story-telling-6d2d5.appspot.com",
-    messagingSenderId: "950899077823",
-    appId: "1:950899077823:web:c9d7ac11b0ca44de2e0c0a"
-  };
-  export default firebaseConfig
+  apiKey: "AIzaSyCa1p665a4cGgzU5oI8JAdzJPJAMTt9gLU",
+  authDomain: "newsnarration-3e36b.firebaseapp.com",
+  projectId: "newsnarration-3e36b",
+  storageBucket: "newsnarration-3e36b.appspot.com",
+  messagingSenderId: "979273020159",
+  appId: "1:979273020159:web:44771ff99f1e59063fd2ca"
+};
+export default firebaseConfig
