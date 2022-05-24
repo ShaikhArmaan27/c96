@@ -5,30 +5,18 @@ import * as Font from "expo-font";
 import {RFValue} from "react-native-responsive-fontsize"
 import firebase from "firebase";
 
+let customFonts = {
+  "Bubblegum-Sans": require("../assets/fonts/BubblegumSans-Regular.ttf")
+};
 
 export default class Profile extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       fontsLoaded: false,
       profile_image: "",
-      isEnabled:false,
-      light_theme:true,
       name:""
     };
-  }
-
-  toggleSwitch(){
-    const previous_state = this.state.isEnabled
-    const theme=!this.state.isEnabled?"Dark":"Light"
-    var updates = {}
-    updates[
-      "/users/"+firebase.auth().currentUser.uid+"/current_theme"
-    ]
-    =theme
-    firebase.database().ref().update(updates)
-    this.setState({isEnabled:!previous_state,light_theme:previous_state})
   }
 
   async _loadFontsAsync() {
@@ -46,13 +34,10 @@ export default class Profile extends Component {
     await firebase.database()
     .ref("/users/"+firebase.auth().currentUser.uid)
     .on("value",function(snapshot){
-      theme=snapshot.val().current_theme
       name="${snapshot.val().first_name} ${snapshot.val().last_name}"
       image=snapshot.val().profile_picture
     })    
     this.setState({
-      light_theme:theme==="light"?true:false,
-      isEnabled:theme==="light"?false:true,
       name:name,
       profile_image:image
     })
@@ -63,7 +48,7 @@ export default class Profile extends Component {
       return <AppLoading />;
     } else {
       return (
-        <View style={this.state.light_theme?styles.containerLight:styles.container}>
+        <View style={styles.container}>
           <SafeAreaView style={styles.droidSafeArea} />
           <View style={styles.appTitle}>
             <View style={styles.appIcon}>
@@ -73,7 +58,7 @@ export default class Profile extends Component {
               ></Image>
             </View>
             <View style={styles.appTitleTextContainer}>
-              <Text style={this.state.light_theme?styles.appTitleTextLight:styles.appTitleText}>Storytelling App</Text>
+              <Text style={styles.appTitleText}>News Narration App</Text>
             </View>
           </View>
           <View style={styles.screenContainer}>
@@ -82,20 +67,7 @@ export default class Profile extends Component {
                 source={{ uri: this.state.profile_image }}
                 style={styles.profileImage}
               ></Image>
-              <Text style={this.state.light_theme?styles.nameTextLight:styles.nameText}>{this.state.name}</Text>
-            </View>
-            <View style={styles.themeContainer}>
-              <Text style={this.state.light_theme?styles.themeTextLight:styles.themeText}>Dark Theme</Text>
-              <Switch
-                style={{
-                  transform: [{ scaleX: 1.3 }, { scaleY: 1.3 }]
-                }}
-                trackColor={{ false: "#767577", true:this.state.light_theme?"#EEE":"white" }}
-                thumbColor={this.state.isEnabled ? "#ee8249" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={() => this.toggleSwitch()}
-                value={this.state.isEnabled}
-              />
+              <Text style={styles.nameText}>{this.state.name}</Text>
             </View>
             <View style={{ flex: 0.3 }} />
           </View>
